@@ -78,3 +78,6 @@ module.exports.logout = async function (req, res){
     })
     return res.status(200).json({message: "User logged out successfully"});
 }
+module.exports.profile = async function(req, res){
+    return res.status(200).json({user: req.user});    
+}
