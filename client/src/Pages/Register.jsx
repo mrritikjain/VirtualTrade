@@ -1,6 +1,44 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 const Register = () => {
+  const navigate = useNavigate();
+  const [user, setUser] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (user.name.length < 3) {
+      alert("Username must be at least 3 characters long");
+      return;
+    } else if (user.password !== user.confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    } else if (user.password.length < 6) {
+      alert("Password must be at least 6 characters long");
+      return;
+    } else if (!user.email.includes("@")) {
+      alert("Invalid email");
+      return;
+    }
+    try {
+      const { data } = await axios.post(
+        "http://localhost:3000/auth/register",
+        user,
+        { withCredentials: true },
+      );
+      alert(data.message);
+      navigate("/Dashboard");
+    } catch (error) {
+      alert(
+        error.response?.data?.message || error.message || "An error occurred",
+      );
+    }
+  };
   return (
     <div className="flex justify-center items-center min-h-screen">
       <div className="bg-zinc-800 rounded-2xl p-8 shadow-lg w-full max-w-md">
@@ -9,7 +47,7 @@ const Register = () => {
           Join Virtual Trade and start trading!
         </p>
 
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={handleSubmit}>
           {/* Username */}
           <div>
             <label className="block text-sm font-medium text-zinc-300 mb-1">
@@ -19,6 +57,10 @@ const Register = () => {
               type="text"
               className="w-full px-3 py-2 bg-zinc-900 border border-zinc-700 rounded-lg text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-teal-500"
               placeholder="Choose a username"
+              value={user.name}
+              onChange={(e) =>
+                setUser((prev) => ({ ...prev, name: e.target.value }))
+              }
             />
           </div>
 
@@ -31,6 +73,10 @@ const Register = () => {
               type="email"
               className="w-full px-3 py-2 bg-zinc-900 border border-zinc-700 rounded-lg text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-teal-500"
               placeholder="Enter your email"
+              value={user.email}
+              onChange={(e) =>
+                setUser((prev) => ({ ...prev, email: e.target.value }))
+              }
             />
           </div>
 
@@ -43,6 +89,10 @@ const Register = () => {
               type="password"
               className="w-full px-3 py-2 bg-zinc-900 border border-zinc-700 rounded-lg text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-teal-500"
               placeholder="Create a password"
+              value={user.password}
+              onChange={(e) =>
+                setUser((prev) => ({ ...prev, password: e.target.value }))
+              }
             />
           </div>
 
@@ -55,6 +105,13 @@ const Register = () => {
               type="password"
               className="w-full px-3 py-2 bg-zinc-900 border border-zinc-700 rounded-lg text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-teal-500"
               placeholder="Confirm your password"
+              value={user.confirmPassword}
+              onChange={(e) =>
+                setUser((prev) => ({
+                  ...prev,
+                  confirmPassword: e.target.value,
+                }))
+              }
             />
           </div>
 

@@ -9,7 +9,7 @@ module.exports.register = async function (req, res) {
       console.log("All the fields are required");
       return res.status(400).json({ message: "All the fields are required" });
     }
-    const user = await User.fineOne({email});
+    const user = await User.findOne({email});
     if(user){
         return res.status(400).json({message: "User already exists"})
     }
@@ -23,9 +23,9 @@ module.exports.register = async function (req, res) {
         })
         await newUser.save();
         const token = jwt.sign({id: newUser._id}, process.env.JWT_SECRET, {expiresIn: "1d"});
-        res.cookies("token", token,{
+        res.cookie("token", token,{
             httpOnly : true,
-            maxAge : 60*60*24,
+            maxAge : 1000 * 60 * 60 * 24,
             secure : process.env.NODE_ENV == "production",
             sameSite : "strict",
         })
@@ -42,21 +42,21 @@ module.exports.register = async function (req, res) {
 module.exports.login = async function (req, res){
  try {
     const {email, password} = req.body;
-    if(!email || !passowrd){
-        return res.status(400).json({message: "All fileds are required"});
+    if(!email || !password){
+        return res.status(400).json({message: "All fields are required"});
     }    
     const user = await User.findOne({email});
     if(!user){
         return res.status(400).json({message: "User not found"});
     } 
-    isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await bcrypt.compare(password, user.password);
     if(!isMatch){
         return res.status(400).json({message: "Invalid password"});
     }
     const token = jwt.sign({id: user._id}, process.env.JWT_SECRET, {expiresIn: "1d"});
     res.cookie("token", token,{
         httpOnly : true,
-        maxAge : 60*60*24,
+        maxAge : 1000 * 60 * 60 * 24,
         secure : process.env.NODE_ENV == "production",
         sameSite : "strict",
     })
@@ -78,6 +78,6 @@ module.exports.logout = async function (req, res){
     })
     return res.status(200).json({message: "User logged out successfully"});
 }
-module.exports.profile = async function(req, res){
+module.exports.Profile = async function(req, res){
     return res.status(200).json({user: req.user});    
 }

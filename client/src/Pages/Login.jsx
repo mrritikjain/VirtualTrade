@@ -1,14 +1,33 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const [user, setUser] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const { data } = await axios.post("http://localhost:3000/auth/login", user, {
+        withCredentials: true,
+      });
+      alert(data.message);
+      navigate("/dashboard");
+    } catch (error) {
+      alert(error.response?.data?.message || error.message || "An error occurred");
+    }
+  };
   return (
     <div className="flex justify-center items-center min-h-screen">
       <div className="bg-zinc-800 rounded-2xl p-8 shadow-lg w-full max-w-md">
         <h2 className="text-2xl font-bold text-white mb-4">Welcome Back</h2>
         <p className="text-zinc-400 text-sm mb-6">Sign in to your account</p>
 
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={handleSubmit}>
           {/* Email */}
           <div>
             <label className="block text-sm font-medium text-zinc-300 mb-1">
@@ -18,6 +37,8 @@ const Login = () => {
               type="email"
               className="w-full px-3 py-2 bg-zinc-900 border border-zinc-700 rounded-lg text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-teal-500"
               placeholder="Enter your email"
+              value={user.email}
+              onChange={(e) => setUser({ ...user, email: e.target.value })}
             />
           </div>
 
@@ -30,6 +51,8 @@ const Login = () => {
               type="password"
               className="w-full px-3 py-2 bg-zinc-900 border border-zinc-700 rounded-lg text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-teal-500"
               placeholder="Enter your password"
+              value={user.password}
+              onChange={(e) => setUser({ ...user, password: e.target.value })}
             />
           </div>
 
