@@ -32,7 +32,7 @@ const Register = () => {
         { withCredentials: true },
       );
       alert(data.message);
-      navigate("/Dashboard");
+      navigate("/dashboard");
     } catch (error) {
       alert(
         error.response?.data?.message || error.message || "An error occurred",

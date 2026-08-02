@@ -1,7 +1,11 @@
 import React from "react";
-
+import Sidebar from "../Components/Sidebar";
 const Dashboard = () => {
-  return <div>Dashboard</div>;
+  return (
+    <div className="flex">
+      <Sidebar />
+    </div>
+  );
 };
 
 export default Dashboard;

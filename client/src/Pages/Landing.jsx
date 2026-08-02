@@ -67,7 +67,7 @@ const Landing = () => {
                 />
               </svg>
             </div>
-            <span className="text-lg font-bold tracking-tight bg-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent">
+            <span className="text-lg font-bold tracking-tight bg-linear-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent">
               Virtual<span className="text-teal-400 font-extrabold">Trade</span>
             </span>
           </Link>
@@ -106,7 +106,7 @@ const Landing = () => {
           <div className="space-y-3">
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-tight">
               Master trading. <br />
-              <span className="bg-gradient-to-r from-teal-400 to-blue-400 bg-clip-text text-transparent">
+              <span className="bg-linear-to-r from-teal-400 to-blue-400 bg-clip-text text-transparent">
                 Without the risk.
               </span>
             </h1>
@@ -121,7 +121,7 @@ const Landing = () => {
           <div className="flex flex-row gap-3">
             <Link
               to="/register"
-              className="bg-gradient-to-r from-teal-500 to-emerald-400 text-zinc-950 hover:from-teal-400 hover:to-emerald-300 font-bold text-sm px-6 py-3 rounded-xl shadow-lg shadow-teal-500/10 transition-all duration-200 hover:-translate-y-0.5 cursor-pointer"
+              className="bg-linear-to-r from-teal-500 to-emerald-400 text-zinc-950 hover:from-teal-400 hover:to-emerald-300 font-bold text-sm px-6 py-3 rounded-xl shadow-lg shadow-teal-500/10 transition-all duration-200 hover:-translate-y-0.5 cursor-pointer"
             >
               Start Trading Free
             </Link>
