@@ -1,8 +1,8 @@
 import React from "react";
 import Sidebar from "../Components/Sidebar";
-import Header from "../Components/Header";
 import Ticker from "../Components/Ticker";
-const Dashboard = () => {
+import Header from "../Components/Header";
+const Watchlist = () => {
   return (
     <div>
       <div>
@@ -10,12 +10,10 @@ const Dashboard = () => {
       </div>
       <div className="flex">
         <Sidebar />
-        <div className="w-full">
-          <Header />
-        </div>
+        <Header />
       </div>
     </div>
   );
 };
 
-export default Dashboard;
+export default Watchlist;

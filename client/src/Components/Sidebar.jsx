@@ -11,7 +11,7 @@ const Sidebar = () => {
       const { data } = await axios.post(
         "http://localhost:3000/auth/logout",
         {},
-        { withCredentials: true }
+        { withCredentials: true },
       );
       alert(data.message);
       navigate("/login");
@@ -23,7 +23,8 @@ const Sidebar = () => {
   const isActive = (path) => location.pathname === path;
 
   const getLinkClasses = (path) => {
-    const base = "flex items-center gap-3 py-2.5 px-3 rounded-xl transition-all duration-200 font-medium text-sm";
+    const base =
+      "flex items-center gap-3 py-2.5 px-3 rounded-xl transition-all duration-200 font-medium text-sm";
     if (isActive(path)) {
       return `${base} bg-teal-500/10 text-teal-400 border border-teal-500/20 shadow-sm shadow-teal-500/5`;
     }
@@ -31,7 +32,7 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="h-screen w-64 bg-zinc-900 border-r border-zinc-800 shrink-0 flex flex-col justify-between p-6">
+    <div className="sticky top-12 h-[calc(100vh-2rem)] w-64 bg-zinc-900 border-r border-zinc-800 shrink-0 flex flex-col justify-between p-6">
       {/* Top Section */}
       <div className="flex flex-col gap-8">
         {/* Logo */}
@@ -73,11 +74,11 @@ const Sidebar = () => {
                 d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
               />
             </svg>
-            <span>Dashboard</span>
+            <span>Market</span>
           </Link>
 
           {/* Portfolio */}
-          <Link to="/dashboard/portfolio" className={getLinkClasses("/dashboard/portfolio")}>
+          <Link to="/portfolio" className={getLinkClasses("/portfolio")}>
             <svg
               className="w-5 h-5"
               fill="none"
@@ -95,7 +96,7 @@ const Sidebar = () => {
           </Link>
 
           {/* Watchlist */}
-          <Link to="/dashboard/watchlist" className={getLinkClasses("/dashboard/watchlist")}>
+          <Link to="/watchlist" className={getLinkClasses("/watchlist")}>
             <svg
               className="w-5 h-5"
               fill="none"
@@ -113,7 +114,7 @@ const Sidebar = () => {
           </Link>
 
           {/* History */}
-          <Link to="/dashboard/history" className={getLinkClasses("/dashboard/history")}>
+          <Link to="/history" className={getLinkClasses("/history")}>
             <svg
               className="w-5 h-5"
               fill="none"
@@ -131,7 +132,7 @@ const Sidebar = () => {
           </Link>
 
           {/* AI Advisor */}
-          <Link to="/dashboard/advisor" className={getLinkClasses("/dashboard/advisor")}>
+          <Link to="/advisor" className={getLinkClasses("/advisor")}>
             <svg
               className="w-5 h-5"
               fill="none"

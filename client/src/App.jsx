@@ -3,6 +3,10 @@ import Landing from "./Pages/Landing";
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import Dashboard from "./Pages/Dashboard";
+import Portfolio from "./Pages/Portfolio";
+import Watchlist from "./Pages/Watchlist";
+import History from "./Pages/History";
+import Advisor from "./Pages/Advisor";
 
 const App = () => {
   return (
@@ -13,6 +17,10 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/portfolio" element={<Portfolio />} />
+          <Route path="/watchlist" element={<Watchlist />} />
+          <Route path="/history" element={<History />} />
+          <Route path="/advisor" element={<Advisor />} />
         </Routes>
       </div>
     </BrowserRouter>
