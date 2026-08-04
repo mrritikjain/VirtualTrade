@@ -1,6 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../Context/AuthContent";
+import Dashboard from "./Dashboard";
+
 const Landing = () => {
+  const { user } = useAuth();
   // Static mock trading terminal data
   const assets = [
     {
@@ -41,6 +45,10 @@ const Landing = () => {
     },
   ];
 
+  if (user) {
+    return <Dashboard />;
+  }
+
   return (
     <div className="h-screen max-h-screen bg-zinc-950 text-white flex flex-col relative overflow-hidden">
       {/* Decorative Gradient Background Orbs */}
@@ -67,7 +75,7 @@ const Landing = () => {
                 />
               </svg>
             </div>
-            <span className="text-lg font-bold tracking-tight bg-linear-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent">
+            <span className="text-lg font-bold tracking-tight bg-linear-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent text-white">
               Virtual<span className="text-teal-400 font-extrabold">Trade</span>
             </span>
           </Link>

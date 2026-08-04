@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import Dashboard from "./Dashboard";
+import { useAuth } from "../Context/AuthContent";
+
 const Register = () => {
   const navigate = useNavigate();
+  const { user: authUser, getProfile } = useAuth();
   const [user, setUser] = useState({
     name: "",
     email: "",
@@ -32,6 +36,7 @@ const Register = () => {
         { withCredentials: true },
       );
       alert(data.message);
+      await getProfile();
       navigate("/dashboard");
     } catch (error) {
       alert(
@@ -39,6 +44,10 @@ const Register = () => {
       );
     }
   };
+
+  if (authUser) {
+    return <Dashboard />;
+  }
   return (
     <div className="flex justify-center items-center min-h-screen">
       <div className="bg-zinc-800 rounded-2xl p-8 shadow-lg w-full max-w-md">

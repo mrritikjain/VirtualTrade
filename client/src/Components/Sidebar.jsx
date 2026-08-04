@@ -36,7 +36,10 @@ const Sidebar = () => {
       {/* Top Section */}
       <div className="flex flex-col gap-8">
         {/* Logo */}
-        <Link to={"/"} className="flex items-center gap-3 cursor-pointer">
+        <Link
+          to={"/dashboard"}
+          className="flex items-center gap-3 cursor-pointer"
+        >
           <div className="w-8 h-8 rounded-lg bg-linear-to-tr from-teal-500 to-emerald-400 flex items-center justify-center shadow-lg shadow-teal-500/20">
             <svg
               className="w-5 h-5 text-zinc-950"

@@ -20,6 +20,7 @@ module.exports.register = async function (req, res) {
             name,
             email,
             password: hashedPassword,
+            credits: 100000
         })
         await newUser.save();
         const token = jwt.sign({id: newUser._id}, process.env.JWT_SECRET, {expiresIn: "1d"});

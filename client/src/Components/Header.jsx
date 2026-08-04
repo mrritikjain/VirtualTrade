@@ -1,23 +1,8 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React from "react";
+import { useAuth } from "../Context/AuthContent";
+
 const Header = () => {
-  const [user, setUser] = useState(null);
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const { data } = await axios.get(
-          "http://localhost:3000/auth/profile",
-          { withCredentials: true }, // cookie bhejne ke liye zaroori
-        );
-        setUser(data.user);
-      } catch (err) {
-        console.error("Not logged in", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchProfile();
-  }, []);
+  const { user } = useAuth();
   return (
     <div className="px-6 py-8 flex justify-between w-full">
       <div className="w-3/4">
@@ -33,17 +18,21 @@ const Header = () => {
       </div>
       <div className="flex justify-between w-1/4">
         <div className="">
-          <h3>CASH</h3>
-          <h4 className="font-bold">₹10,00,000</h4>
+          <h3 className="text-zinc-400 text-sm tracking-wide">Cash Balance</h3>
+          <h4 className="font-bold">₹ {user ? user.credits : "-"}</h4>
         </div>
 
         <div className="">
-          <h3>CASH</h3>
+          <h3 className="text-zinc-400 text-sm tracking-wide">
+            Portfolio Value
+          </h3>
           <h4 className="font-bold">₹10,00,000</h4>
         </div>
         <div className="">
-          <h3>CASH</h3>
-          <h4 className="font-bold">₹10,00,000</h4>
+          <h3 className="text-zinc-400 text-sm tracking-wide">Total P&L</h3>
+          <h4 className="font-bold text-green-500">
+            + ₹0 <span className="text-zinc-400 text-sm"> (0.00%)</span>
+          </h4>
         </div>
       </div>
     </div>

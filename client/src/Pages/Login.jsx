@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import Dashboard from "./Dashboard";
+import { useAuth } from "../Context/AuthContent";
 
 const Login = () => {
   const navigate = useNavigate();
+  const { user: authUser, getProfile } = useAuth();
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -11,16 +14,29 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
-      const { data } = await axios.post("http://localhost:3000/auth/login", user, {
-        withCredentials: true,
-      });
+      const { data } = await axios.post(
+        "http://localhost:3000/auth/login",
+        user,
+        {
+          withCredentials: true,
+        },
+      );
       alert(data.message);
+      await getProfile();
       navigate("/dashboard");
     } catch (error) {
-      alert(error.response?.data?.message || error.message || "An error occurred");
+      alert(
+        error.response?.data?.message || error.message || "An error occurred",
+      );
     }
   };
+
+  if (authUser) {
+    return <Dashboard />;
+  }
+
   return (
     <div className="flex justify-center items-center min-h-screen">
       <div className="bg-zinc-800 rounded-2xl p-8 shadow-lg w-full max-w-md">
