@@ -1,5 +1,5 @@
 import React from "react";
-import { useAuth } from "../Context/AuthContent";
+import { useAuth } from "../Context/AuthContent.jsx";
 
 const Header = () => {
   const { user } = useAuth();
