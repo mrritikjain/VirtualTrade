@@ -2,49 +2,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../Context/AuthContent.jsx";
 import Dashboard from "./Dashboard";
+import { useMarket } from "../Context/MarketContext.jsx";
 
 const Landing = () => {
   const { user } = useAuth();
-  // Static mock trading terminal data
-  const assets = [
-    {
-      symbol: "BTC/USD",
-      name: "Bitcoin",
-      price: 64250.8,
-      change: 2.45,
-      linePath: "M 0 20 L 20 15 L 40 25 L 60 8 L 80 18 L 110 5",
-      areaPath:
-        "M 0 20 L 20 15 L 40 25 L 60 8 L 80 18 L 110 5 L 110 30 L 0 30 Z",
-    },
-    {
-      symbol: "ETH/USD",
-      name: "Ethereum",
-      price: 3450.2,
-      change: 1.82,
-      linePath: "M 0 18 L 20 22 L 40 12 L 60 18 L 80 10 L 110 6",
-      areaPath:
-        "M 0 18 L 20 22 L 40 12 L 60 18 L 80 10 L 110 6 L 110 30 L 0 30 Z",
-    },
-    {
-      symbol: "AAPL",
-      name: "Apple Inc.",
-      price: 182.1,
-      change: 1.15,
-      linePath: "M 0 25 L 20 22 L 40 20 L 60 14 L 80 10 L 110 8",
-      areaPath:
-        "M 0 25 L 20 22 L 40 20 L 60 14 L 80 10 L 110 8 L 110 30 L 0 30 Z",
-    },
-    {
-      symbol: "TSLA",
-      name: "Tesla Inc.",
-      price: 178.5,
-      change: -0.75,
-      linePath: "M 0 6 L 20 12 L 40 18 L 60 28 L 80 20 L 110 24",
-      areaPath:
-        "M 0 6 L 20 12 L 40 18 L 60 28 L 80 20 L 110 24 L 110 30 L 0 30 Z",
-    },
-  ];
-
+  const { stock: stocks } = useMarket();
   if (user) {
     return <Dashboard />;
   }
@@ -227,14 +189,14 @@ const Landing = () => {
 
             {/* Asset Tracker Body */}
             <div className="space-y-4">
-              {assets.map((asset) => {
+              {stocks?.slice(0, 5).map((asset, idx) => {
                 const isPositive = asset.change >= 0;
                 const strokeColor = isPositive ? "#14b8a6" : "#f43f5e";
                 const gradientId = `grad-${asset.symbol.replace("/", "-")}`;
 
                 return (
                   <div
-                    key={asset.symbol}
+                    key={idx}
                     className="flex items-center justify-between p-3.5 bg-zinc-950/45 border border-zinc-900/80 hover:border-zinc-800/60 rounded-xl transition-all duration-200"
                   >
                     {/* Asset Name & Icon */}
@@ -246,26 +208,40 @@ const Landing = () => {
                             : "bg-rose-500/10 text-rose-400"
                         }`}
                       >
-                        {asset.symbol.split("/")[0].substring(0, 2)}
+                        {asset.symbol.slice(0, 2)}
                       </div>
                       <div>
                         <div className="font-bold text-sm text-white leading-none">
                           {asset.symbol}
                         </div>
                         <span className="text-[10px] text-zinc-500">
-                          {asset.name}
+                          {asset.companyName}
                         </span>
                       </div>
                     </div>
 
                     {/* Highly Visible Static Sparkline Chart */}
-                    <div className="w-27.5 h-7.5 mx-2 relative"></div>
+                    <div className="w-20 h-6 mx-2 relative opacity-60">
+                      <svg className="w-full h-full" viewBox="0 0 60 20">
+                        <path
+                          d={
+                            isPositive
+                              ? "M 0 15 Q 15 5 30 12 T 60 3"
+                              : "M 0 5 Q 15 15 30 8 T 60 17"
+                          }
+                          fill="none"
+                          stroke={strokeColor}
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                        />
+                      </svg>
+                    </div>
 
                     {/* Price and Percentage Change */}
                     <div className="text-right min-w-17.5">
                       <div className="font-bold text-sm text-white">
                         $
-                        {asset.price.toLocaleString(undefined, {
+                        {asset.currentPrice.toLocaleString(undefined, {
                           minimumFractionDigits: 2,
                         })}
                       </div>
@@ -273,7 +249,10 @@ const Landing = () => {
                         className={`text-[10px] font-bold ${isPositive ? "text-teal-400" : "text-rose-400"}`}
                       >
                         {isPositive ? "+" : ""}
-                        {asset.change}%
+                        {asset.changePercent
+                          ? asset.changePercent.toFixed(2)
+                          : "0.00"}
+                        %
                       </span>
                     </div>
                   </div>

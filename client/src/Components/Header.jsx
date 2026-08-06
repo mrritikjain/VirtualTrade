@@ -19,7 +19,9 @@ const Header = () => {
       <div className="flex justify-between w-1/4">
         <div className="">
           <h3 className="text-zinc-400 text-sm tracking-wide">Cash Balance</h3>
-          <h4 className="font-bold">₹ {user ? user.credits : "-"}</h4>
+          <h4 className="font-bold">
+            ₹ {user ? user.credits || "1,00,000" : "-"}
+          </h4>
         </div>
 
         <div className="">

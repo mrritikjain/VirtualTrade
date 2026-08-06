@@ -1,10 +1,12 @@
 import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useAuth } from "../Context/AuthContent.jsx";
 
 const Sidebar = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { setUser } = useAuth();
 
   const handleLogout = async () => {
     try {
@@ -14,7 +16,8 @@ const Sidebar = () => {
         { withCredentials: true },
       );
       alert(data.message);
-      navigate("/login");
+      setUser(null);
+      navigate("/");
     } catch (error) {
       alert(error.response?.data?.message || error.message || "Logout failed");
     }

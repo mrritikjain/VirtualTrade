@@ -4,7 +4,7 @@ const {getStockQuote, getStockSymbols} = require("../Services/FinnhubServices");
 const getAllStocks = async (req, res) => {
     try {
         const symbols = await getStockSymbols();
-        const stocksToFetch = symbols.slice(0,20);
+        const stocksToFetch = symbols.slice(0,50);
         const stocks = await Promise.all(stocksToFetch.map(async(stock)=>{
         const quote = await getStockQuote(stock.symbol);
         return {

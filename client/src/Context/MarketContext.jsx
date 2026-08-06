@@ -21,10 +21,6 @@ export const MarketProvider = ({ children }) => {
   };
   useEffect(() => {
     getStock();
-    const interval = setInterval(() => {
-      getStock();
-    }, 20000);
-    return () => clearInterval(interval);
   }, []);
   return (
     <MarketContext.Provider value={{ stock, loading }}>
