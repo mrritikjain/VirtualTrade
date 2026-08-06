@@ -1,15 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useMarket } from "../Context/MarketContext.jsx";
 
-const StockCards = () => {
+const StockCards = ({ searchQuery }) => {
   const { stock, loading } = useMarket();
   const [CurrentPage, setCurrentPage] = useState(1);
   const stockPerPage = 12;
 
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery]);
+
+  const filteredStock = stock.filter(
+    (item) =>
+      item.symbol.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.companyName.toLowerCase().includes(searchQuery.toLowerCase()),
+  );
+
   const lastindex = CurrentPage * stockPerPage;
   const firstindex = lastindex - stockPerPage;
-  const currentStock = stock.slice(firstindex, lastindex);
-  const totalPages = Math.ceil(stock.length / stockPerPage);
+  const currentStock = filteredStock.slice(firstindex, lastindex);
+  const totalPages = Math.ceil(filteredStock.length / stockPerPage);
 
   const nextPage = () => {
     if (CurrentPage < totalPages) {
