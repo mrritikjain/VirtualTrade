@@ -7,6 +7,7 @@ import Portfolio from "./Pages/Portfolio";
 import Watchlist from "./Pages/Watchlist";
 import History from "./Pages/History";
 import Advisor from "./Pages/Advisor";
+import StockdetailPage from "./Pages/StockdetailPage.jsx";
 import { AuthProvider } from "./Context/AuthContent.jsx";
 import { MarketProvider } from "./Context/MarketContext.jsx";
 import { WishProvider } from "./Context/WishContext.jsx";
@@ -27,6 +28,7 @@ const App = () => {
                 <Route path="/watchlist" element={<Watchlist />} />
                 <Route path="/history" element={<History />} />
                 <Route path="/advisor" element={<Advisor />} />
+                <Route path="/market/:symbol" element={<StockdetailPage />} />
               </Routes>
             </div>
           </BrowserRouter>

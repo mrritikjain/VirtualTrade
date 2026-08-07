@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useMarket } from "../Context/MarketContext.jsx";
 import { useWish } from "../Context/WishContext.jsx";
-
+import { Link } from "react-router-dom";
 const StockCards = ({ searchQuery }) => {
   const { stock, loading } = useMarket();
   const { wishlist, getWishList } = useWish();
@@ -70,85 +70,89 @@ const StockCards = ({ searchQuery }) => {
           {currentStock &&
             currentStock.map((item, idx) => {
               const isUp = item.change >= 0;
-              const isWishlisted = wishlist.some((wishItem) => wishItem.symbol === item.symbol);
+              const isWishlisted = wishlist.some(
+                (wishItem) => wishItem.symbol === item.symbol,
+              );
 
               return (
                 <div
                   key={idx}
                   className="p-6 bg-linear-to-br from-zinc-900/90 to-zinc-950/95 border border-zinc-800/80 rounded-2xl w-64 hover:border-teal-500/40 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgb(20,184,166,0.06)] transition-all duration-300 flex flex-col justify-between gap-5 cursor-pointer group"
                 >
-                  <div className="flex justify-between items-start w-full relative">
-                    <div className="flex flex-col">
-                      <h4 className="font-extrabold text-white text-lg tracking-tight group-hover:text-teal-400 transition-colors">
-                        {item.symbol}
-                      </h4>
-                      <p className="text-xs text-zinc-400 font-medium truncate max-w-35 mt-0.5 group-hover:text-zinc-300 transition-colors">
-                        {item.companyName}
-                      </p>
+                  <Link to={`/market/${item.symbol}`}>
+                    <div className="flex justify-between items-start w-full relative">
+                      <div className="flex flex-col">
+                        <h4 className="font-extrabold text-white text-lg tracking-tight group-hover:text-teal-400 transition-colors">
+                          {item.symbol}
+                        </h4>
+                        <p className="text-xs text-zinc-400 font-medium truncate max-w-35 mt-0.5 group-hover:text-zinc-300 transition-colors">
+                          {item.companyName}
+                        </p>
+                      </div>
+
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          getWishList(item);
+                        }}
+                        className="absolute top-0 right-0 opacity-60 group-hover:opacity-100 transition-opacity pr-1 cursor-pointer"
+                      >
+                        {isWishlisted ? (
+                          // Filled gold star
+                          <svg
+                            className="w-5 h-5 text-amber-400"
+                            fill="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                          </svg>
+                        ) : (
+                          // Outline star
+                          <svg
+                            className="w-5 h-5 text-zinc-500 hover:text-zinc-300"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            strokeWidth={2}
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.907c.961 0 1.36 1.246.588 1.81l-3.97 2.883a1 1 0 00-.364 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.971-2.883a1 1 0 00-1.17 0l-3.97 2.883c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.364-1.118L2.98 10.1c-.773-.564-.373-1.81.588-1.81h4.908a1 1 0 00.951-.69l1.519-4.674z"
+                            />
+                          </svg>
+                        )}
+                      </button>
                     </div>
 
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        getWishList(item);
-                      }}
-                      className="absolute top-0 right-0 opacity-60 group-hover:opacity-100 transition-opacity pr-1 cursor-pointer"
-                    >
-                      {isWishlisted ? (
-                        // Filled gold star
-                        <svg
-                          className="w-5 h-5 text-amber-400"
-                          fill="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-                        </svg>
-                      ) : (
-                        // Outline star
-                        <svg
-                          className="w-5 h-5 text-zinc-500 hover:text-zinc-300"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                          strokeWidth={2}
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.907c.961 0 1.36 1.246.588 1.81l-3.97 2.883a1 1 0 00-.364 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.971-2.883a1 1 0 00-1.17 0l-3.97 2.883c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.364-1.118L2.98 10.1c-.773-.564-.373-1.81.588-1.81h4.908a1 1 0 00.951-.69l1.519-4.674z"
-                          />
-                        </svg>
-                      )}
-                    </button>
-                  </div>
+                    <div className="flex items-end justify-between mt-1">
+                      <div className="flex flex-col gap-0.5">
+                        <span className="text-[10px] text-zinc-500 font-extrabold uppercase tracking-wider">
+                          Price
+                        </span>
+                        <span className="text-2xl font-black text-white tracking-tight group-hover:text-teal-50 transition-colors">
+                          ₹
+                          {item.currentPrice.toLocaleString(undefined, {
+                            minimumFractionDigits: 2,
+                          })}
+                        </span>
+                      </div>
 
-                  <div className="flex items-end justify-between mt-1">
-                    <div className="flex flex-col gap-0.5">
-                      <span className="text-[10px] text-zinc-500 font-extrabold uppercase tracking-wider">
-                        Price
-                      </span>
-                      <span className="text-2xl font-black text-white tracking-tight group-hover:text-teal-50 transition-colors">
-                        ₹
-                        {item.currentPrice.toLocaleString(undefined, {
-                          minimumFractionDigits: 2,
-                        })}
+                      <span
+                        className={`text-[11px] font-bold font-mono px-2.5 py-1.5 rounded-xl border flex items-center gap-1 shadow-sm transition-all duration-300 ${
+                          isUp
+                            ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20 shadow-emerald-500/5 group-hover:bg-emerald-500/20"
+                            : "bg-rose-500/10 text-rose-400 border-rose-500/20 shadow-rose-500/5 group-hover:bg-rose-500/20"
+                        }`}
+                      >
+                        {isUp ? "↗" : "↘"} {isUp ? "+" : ""}
+                        {item.changePercent
+                          ? item.changePercent.toFixed(2)
+                          : "0.00"}
+                        %
                       </span>
                     </div>
-
-                    <span
-                      className={`text-[11px] font-bold font-mono px-2.5 py-1.5 rounded-xl border flex items-center gap-1 shadow-sm transition-all duration-300 ${
-                        isUp
-                          ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20 shadow-emerald-500/5 group-hover:bg-emerald-500/20"
-                          : "bg-rose-500/10 text-rose-400 border-rose-500/20 shadow-rose-500/5 group-hover:bg-rose-500/20"
-                      }`}
-                    >
-                      {isUp ? "↗" : "↘"} {isUp ? "+" : ""}
-                      {item.changePercent
-                        ? item.changePercent.toFixed(2)
-                        : "0.00"}
-                      %
-                    </span>
-                  </div>
+                  </Link>
                 </div>
               );
             })}

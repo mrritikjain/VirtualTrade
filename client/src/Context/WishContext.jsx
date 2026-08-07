@@ -1,9 +1,16 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 const WishContext = createContext();
 
 export const WishProvider = ({ children }) => {
-  const [wishlist, setWishList] = useState([]);
-
+  const [wishlist, setWishList] = useState(() => {
+    try {
+      const saved = localStorage.getItem("wishlist");
+      return saved ? JSON.parse(saved) : [];
+    } catch (e) {
+      console.error(e);
+      return [];
+    }
+  });
   const getWishList = (stockItem) => {
     const exists = wishlist.find((item) => item.symbol === stockItem.symbol);
 
@@ -15,7 +22,9 @@ export const WishProvider = ({ children }) => {
       return setWishList([...wishlist, stockItem]);
     }
   };
-
+  useEffect(() => {
+    localStorage.setItem("wishlist", JSON.stringify(wishlist));
+  }, [wishlist]);
   return (
     <WishContext.Provider value={{ wishlist, getWishList }}>
       {children}
