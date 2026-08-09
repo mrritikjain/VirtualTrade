@@ -12,17 +12,17 @@ const Landing = () => {
   }
 
   return (
-    <div className="h-screen max-h-screen bg-zinc-950 text-white flex flex-col relative overflow-hidden">
+    <div className="md:h-screen md:max-h-screen bg-zinc-950 text-white flex flex-col relative overflow-hidden">
       {/* Decorative Gradient Background Orbs */}
-      <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-teal-500/10 blur-[150px] pointer-events-none"></div>
-      <div className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] rounded-full bg-blue-500/10 blur-[180px] pointer-events-none"></div>
+      <div className="absolute top-0 left-0 md:top-[-20%] md:left-[-10%] w-[50%] h-[50%] rounded-full bg-teal-500/10 blur-[150px] pointer-events-none"></div>
+      <div className="absolute bottom-0 right-0 md:bottom-[-10%] md:right-[-10%] w-[60%] h-[60%] rounded-full bg-blue-500/10 blur-[180px] pointer-events-none"></div>
 
       {/* Header/Navbar */}
       <header className="z-50 border-b border-zinc-900/60 bg-zinc-950/20">
         <div className="max-w-7xl mx-auto px-6 h-16 flex justify-between items-center">
           {/* Logo */}
           <Link to={"/"} className="flex items-center gap-3 cursor-pointer">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-teal-500 to-emerald-400 flex items-center justify-center shadow-lg shadow-teal-500/20">
+            <div className="w-8 h-8 rounded-lg bg-linear-to-tr from-teal-500 to-emerald-400 flex items-center justify-center shadow-lg shadow-teal-500/20">
               <svg
                 className="w-5 h-5 text-zinc-950"
                 fill="none"

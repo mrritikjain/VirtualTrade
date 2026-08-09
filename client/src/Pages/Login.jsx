@@ -23,7 +23,7 @@ const Login = () => {
           withCredentials: true,
         },
       );
-      alert(data.message);
+
       await getProfile();
       navigate("/dashboard");
     } catch (error) {

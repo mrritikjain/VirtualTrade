@@ -44,7 +44,7 @@ const StockCards = ({ searchQuery }) => {
   }
 
   return (
-    <div className="flex flex-col gap-6 w-full text-white">
+    <div className="flex flex-col gap-4 w-full text-white">
       {/* 1. Stock Grid */}
       {filteredStock.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-16 text-zinc-500 gap-2 w-full">

@@ -21,7 +21,11 @@ export const MarketProvider = ({ children }) => {
   };
   useEffect(() => {
     getStock();
+
+    const syncId = setInterval(getStock, 90000); // 90s
+    return () => clearInterval(syncId);
   }, []);
+
   return (
     <MarketContext.Provider value={{ stock, loading }}>
       {children}
