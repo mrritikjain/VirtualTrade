@@ -46,7 +46,7 @@ const StockdetailPage = () => {
         <Sidebar />
         <div className="flex-1 flex flex-col h-full overflow-hidden">
           <Header />
-          <div className="flex-1 min-h-0 gap-2 px-10 py-6 bg-linear-to-b from-zinc-900 to-zinc-950/95 border border-zinc-800/80 rounded-2xl mx-5 flex flex-col overflow-hidden mb-5 shadow-2xl">
+          <div className="flex-1 min-h-0 gap-2 md:px-10 px-5 py-6 bg-linear-to-b from-zinc-900 to-zinc-950/95 border border-zinc-800/80 rounded-2xl mx-5 flex flex-col lg:overflow-hidden overflow-y-auto no-scrollbar mb-5 shadow-2xl">
             {/* Back Button */}
             <Link
               to="/dashboard"
@@ -56,16 +56,16 @@ const StockdetailPage = () => {
             </Link>
 
             {/* Header section with symbol info */}
-            <h2 className="text-3xl font-bold my-2 tracking-tight text-white flex items-baseline gap-2">
+            <h2 className="text-2xl md:text-3xl font-bold my-2 tracking-tight text-white flex items-baseline gap-2">
               {selectedStock.symbol}
-              <span className="text-sm text-zinc-300 border border-zinc-800/80 rounded-full px-5 py-1 bg-zinc-800/60">
+              <span className="md:text-sm text-xs text-zinc-300 border border-zinc-800/80 rounded-full px-5 py-1 bg-zinc-800/60">
                 {selectedStock.companyName}
               </span>
             </h2>
 
             {/* Price Indicator */}
             <div className="flex items-center gap-3 mb-4">
-              <span className="text-2xl font-bold text-white">
+              <span className="text-xl md:text-2xl font-bold text-white">
                 ₹
                 {selectedStock.currentPrice.toLocaleString("en-IN", {
                   minimumFractionDigits: 2,
@@ -83,7 +83,7 @@ const StockdetailPage = () => {
               </span>
             </div>
 
-            <div className="flex-1 flex flex-col lg:flex-row gap-6 min-h-0 overflow-hidden mt-4">
+            <div className="flex-1 flex flex-col lg:flex-row gap-6 min-h-0 lg:overflow-hidden mt-4">
               <div className="flex-1 bg-zinc-950/20 border border-zinc-800/80 rounded-xl p-4 relative min-h-75">
                 <StockDetailChart symbol={symbol} />
               </div>

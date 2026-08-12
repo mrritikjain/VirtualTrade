@@ -161,22 +161,21 @@ const StockCards = ({ searchQuery }) => {
 
       {/* 2. Pagination Controls (Only show if results exist) */}
       {filteredStock.length > 0 && (
-        <div className="flex justify-between items-center py-4 border-t border-zinc-800/60 mt-4">
+        <div className="flex w-full justify-between items-center py-4 border-t border-zinc-800/60 mt-6 gap-2">
           <button
             onClick={prevPage}
             disabled={CurrentPage === 1}
-            className="px-4 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-sm font-semibold disabled:opacity-40 disabled:cursor-not-allowed hover:bg-zinc-700 transition-all cursor-pointer"
+            className="px-4 py-2 bg-zinc-900 border border-zinc-800 rounded-lg text-sm font-semibold text-white disabled:opacity-40 disabled:cursor-not-allowed hover:bg-zinc-800 transition-all cursor-pointer"
           >
             Previous
           </button>
-          <span className="text-sm font-semibold text-zinc-400">
-            Page <span className="text-white">{CurrentPage}</span> of{" "}
-            {totalPages}
+          <span className="text-xs sm:text-sm font-semibold text-zinc-400 whitespace-nowrap">
+            Page <span className="text-white">{CurrentPage}</span> of {totalPages}
           </span>
           <button
             onClick={nextPage}
             disabled={CurrentPage === totalPages}
-            className="px-4 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-sm font-semibold disabled:opacity-40 disabled:cursor-not-allowed hover:bg-zinc-700 transition-all cursor-pointer"
+            className="px-4 py-2 bg-zinc-900 border border-zinc-800 rounded-lg text-sm font-semibold text-white disabled:opacity-40 disabled:cursor-not-allowed hover:bg-zinc-800 transition-all cursor-pointer"
           >
             Next
           </button>

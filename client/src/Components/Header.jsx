@@ -4,8 +4,8 @@ import { useAuth } from "../Context/AuthContent.jsx";
 const Header = () => {
   const { user } = useAuth();
   return (
-    <div className="px-6 py-8 flex justify-between w-full">
-      <div className="w-3/4">
+    <div className="md:px-6 md-py-8 px-4 py-4 md:flex md:justify-between block w-full">
+      <div className="md:w-3/4 w-full">
         <h2 className="text-zinc-200 text-2xl font-bold leading-none tracking-wide">
           Namaste,{" "}
           {user
@@ -16,7 +16,7 @@ const Header = () => {
           Let's start trading with virtual cash!
         </p>
       </div>
-      <div className="flex justify-between w-1/4">
+      <div className="flex justify-between md:w-1/4 w-full mt-5 md:mt-0">
         <div className="">
           <h3 className="text-zinc-400 text-sm tracking-wide">Cash Balance</h3>
           <h4 className="font-bold">

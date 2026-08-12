@@ -15,9 +15,9 @@ const Dashboard = () => {
         <Sidebar />
         <div className="flex-1 flex flex-col h-full overflow-hidden">
           <Header />
-          <div className="flex-1 min-h-0 gap-2 px-10 py-6 bg-gradient-to-b from-zinc-900 to-zinc-950/95 border border-zinc-800/80 rounded-2xl mx-5 flex flex-col overflow-hidden mb-5 shadow-2xl">
-            <div className="flex justify-between items-center mb-7">
-              <h2 className="text-zinc-100 font-bold text-xl tracking-tight">
+          <div className="flex-1 min-h-0 gap-2 px-5 md:px-10 py-6 bg-linear-to-b from-zinc-900 to-zinc-950/95 border border-zinc-800/80 rounded-2xl mx-5 flex flex-col overflow-hidden mb-5 shadow-2xl">
+            <div className="md:flex block  justify-between items-center mb-7">
+              <h2 className="text-zinc-100 font-bold text-xl tracking-tight mb-4 md:mb-0">
                 Market Overview
               </h2>
               <div className="relative">
@@ -36,14 +36,14 @@ const Dashboard = () => {
                 </span>
                 <input
                   type="text"
-                  className="h-10 w-72 rounded-full pl-10 pr-4 bg-zinc-950/40 border border-zinc-800 focus:outline-none focus:border-teal-500/80 focus:ring-4 focus:ring-teal-500/10 text-white placeholder-zinc-500 transition-all duration-200 text-sm"
+                  className="h-10 w-64 md:w-72 rounded-full pl-10 pr-4 bg-zinc-950/40 border border-zinc-800 focus:outline-none focus:border-teal-500/80 focus:ring-4 focus:ring-teal-500/10 text-white placeholder-zinc-500 transition-all duration-200 text-sm"
                   placeholder="Search Stocks symbol or Name..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </div>
             </div>
-            <div className="flex-1 min-h-0 overflow-y-auto no-scrollbar pr-2">
+            <div className="flex-1 min-h-0 overflow-y-auto no-scrollbar pr-2 relative">
               <StockCards searchQuery={searchQuery} />
             </div>
           </div>

@@ -16,7 +16,7 @@ const Watchlist = () => {
         <Sidebar />
         <div className="flex-1 flex flex-col h-full overflow-hidden">
           <Header />
-          <div className="flex-1 min-h-0 gap-2 px-10 py-6 bg-linear-to-b from-zinc-900 to-zinc-950/95 border border-zinc-800/80 rounded-2xl mx-5 flex flex-col overflow-hidden mb-5 shadow-2xl">
+          <div className="flex-1 min-h-0 gap-2 md:px-10 px-5 py-6 bg-linear-to-b from-zinc-900 to-zinc-950/95 border border-zinc-800/80 rounded-2xl mx-5 flex flex-col overflow-hidden mb-5 shadow-2xl">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-zinc-100 font-bold text-xl tracking-tight">
                 My Watchlist
