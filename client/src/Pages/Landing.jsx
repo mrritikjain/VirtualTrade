@@ -37,7 +37,7 @@ const Landing = () => {
                 />
               </svg>
             </div>
-            <span className="text-lg font-bold tracking-tight bg-linear-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent text-white">
+            <span className="text-lg font-bold tracking-tight bg-linear-to-r from-white to-zinc-400 bg-clip-text  text-white">
               Virtual<span className="text-teal-400 font-extrabold">Trade</span>
             </span>
           </Link>
