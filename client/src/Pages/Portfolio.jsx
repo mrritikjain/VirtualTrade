@@ -8,9 +8,11 @@ const Portfolio = () => {
       <div>
         <Ticker />
       </div>
-      <div className="flex">
+      <div className="flex flex-1 min-h-0">
         <Sidebar />
-        <Header />
+        <div className="flex-1 flex flex-col h-full overflow-hidden">
+          <Header />
+          </div>
       </div>
     </div>
   );
