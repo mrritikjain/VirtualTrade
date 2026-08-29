@@ -31,9 +31,8 @@ const Register = () => {
     }
     try {
       const { data } = await axios.post(
-        "http://localhost:3000/auth/register",
+        "/auth/register",
         user,
-        { withCredentials: true },
       );
 
       await getProfile();

@@ -7,9 +7,7 @@ export const AuthProvider = ({ children }) => {
 
   const getProfile = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/auth/profile", {
-        withCredentials: true,
-      });
+      const res = await axios.get("/auth/profile");
       setUser(res.data.user);
     } catch (err) {
       console.error(err);
