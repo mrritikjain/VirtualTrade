@@ -7,7 +7,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import { useSymbolHistory } from "../Hooks/UseSymbolHistory.jsx";
+import { useSymbolHistory } from "../Hooks/useSymbolHistory.jsx";
 import { useRef } from "react";
 
 const CustomTooltip = ({ active, payload, label }) => {
