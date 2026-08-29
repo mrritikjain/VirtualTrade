@@ -10,14 +10,17 @@ dotenv.config();
 
 connectDB();
 
+const corsOrigin = process.env.FRONTEND_URL || "http://localhost:5173";
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: corsOrigin,
   credentials: true
 }));
 app.use(express.json());
 app.use(cookieParser());
 app.use("/auth", AuthRoute);
 app.use("/api/market", marketRoute);
-app.listen(3000, ()=>{
-    console.log("server started on port 3000");
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, ()=>{
+    console.log(`server started on port ${PORT}`);
 })
