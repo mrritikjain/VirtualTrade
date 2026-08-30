@@ -4,6 +4,7 @@ const authContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const getProfile = async () => {
     try {
@@ -11,13 +12,16 @@ export const AuthProvider = ({ children }) => {
       setUser(res.data.user);
     } catch (err) {
       console.error(err);
+      setUser(null);
+    } finally {
+      setLoading(false);
     }
   };
   useEffect(() => {
     getProfile();
   }, []);
   return (
-    <authContext.Provider value={{ user, getProfile, setUser }}>
+    <authContext.Provider value={{ user, getProfile, setUser, loading }}>
       {children}
     </authContext.Provider>
   );
