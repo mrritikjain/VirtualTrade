@@ -24,11 +24,12 @@ module.exports.register = async function (req, res) {
         })
         await newUser.save();
         const token = jwt.sign({id: newUser._id}, process.env.JWT_SECRET, {expiresIn: "1d"});
+        const isProd = process.env.NODE_ENV === "production";
         res.cookie("token", token,{
             httpOnly : true,
             maxAge : 1000 * 60 * 60 * 24,
-            secure : process.env.NODE_ENV == "production",
-            sameSite : "strict",
+            secure : isProd,
+            sameSite : isProd ? "none" : "lax",
         })
         return res.status(200).json({message: "User registered successfully"});
     }
@@ -55,11 +56,12 @@ module.exports.login = async function (req, res){
         return res.status(400).json({message: "Invalid password"});
     }
     const token = jwt.sign({id: user._id}, process.env.JWT_SECRET, {expiresIn: "1d"});
+    const isProd = process.env.NODE_ENV === "production";
     res.cookie("token", token,{
         httpOnly : true,
         maxAge : 1000 * 60 * 60 * 24,
-        secure : process.env.NODE_ENV == "production",
-        sameSite : "strict",
+        secure : isProd,
+        sameSite : isProd ? "none" : "lax",
     })
     return res.status(200).json({message: "User logged in successfully"});
  } catch (error) {
@@ -71,11 +73,12 @@ module.exports.login = async function (req, res){
 }
 
 module.exports.logout = async function (req, res){
+    const isProd = process.env.NODE_ENV === "production";
     res.cookie("token", "", {
         httpOnly : true,
         maxAge : 0,
-        secure : process.env.NODE_ENV == "production",
-        sameSite : "strict",
+        secure : isProd,
+        sameSite : isProd ? "none" : "lax",
     })
     return res.status(200).json({message: "User logged out successfully"});
 }
