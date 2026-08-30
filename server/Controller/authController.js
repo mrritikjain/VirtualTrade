@@ -31,7 +31,10 @@ module.exports.register = async function (req, res) {
             secure : isProd,
             sameSite : isProd ? "none" : "lax",
         })
-        return res.status(200).json({message: "User registered successfully"});
+        return res.status(200).json({
+            message: "User registered successfully",
+            token: token
+        });
     }
   } catch (error) {
     res.status(500).json({
@@ -63,7 +66,10 @@ module.exports.login = async function (req, res){
         secure : isProd,
         sameSite : isProd ? "none" : "lax",
     })
-    return res.status(200).json({message: "User logged in successfully"});
+    return res.status(200).json({
+        message: "User logged in successfully",
+        token: token
+    });
  } catch (error) {
     res.status(500).json({
         message : "Something went wrong",

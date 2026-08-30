@@ -34,6 +34,9 @@ const Register = () => {
         "/auth/register",
         user,
       );
+      if (data.token) {
+        localStorage.setItem("token", data.token);
+      }
 
       await getProfile();
       navigate("/dashboard");

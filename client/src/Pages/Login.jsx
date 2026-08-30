@@ -20,6 +20,9 @@ const Login = () => {
         "/auth/login",
         user,
       );
+      if (data.token) {
+        localStorage.setItem("token", data.token);
+      }
 
       await getProfile();
       navigate("/dashboard");
