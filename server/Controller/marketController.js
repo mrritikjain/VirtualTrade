@@ -21,7 +21,7 @@ const getAllStocks = async (req, res) => {
     const symbols = await getStockSymbols();
     
     // Slice to 15 stocks to safely stay within API call limits (1 symbols fetch + 15 quote calls = 16 calls)
-    const stocksToFetch = symbols.slice(0, 45);
+    const stocksToFetch = symbols.slice(0, 15);
     
     const stocks = await Promise.all(
       stocksToFetch.map(async (stock) => {
