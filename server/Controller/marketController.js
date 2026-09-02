@@ -20,8 +20,8 @@ const getAllStocks = async (req, res) => {
     console.log("Fetching fresh market data from Finnhub...");
     const symbols = await getStockSymbols();
     
-    // Slice to 15 stocks to safely stay within API call limits (1 symbols fetch + 15 quote calls = 16 calls)
-    const stocksToFetch = symbols.slice(0, 15);
+    // Slice to 45 stocks to safely stay within API call limits (1 symbols fetch + 45 quote calls = 46 calls)
+    const stocksToFetch = symbols.slice(0, 45);
     
     const stocks = await Promise.all(
       stocksToFetch.map(async (stock) => {

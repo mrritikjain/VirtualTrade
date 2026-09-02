@@ -5,8 +5,8 @@ const userSchema = mongoose.Schema({
     email: {type: String, required: true, unique: true},
     password: {type: String, required: true},
     credits: {
-    type: String,
-    default: `1,00,000`,
+    type: Number,
+    default: 100000,
   },
 }, { timestamps: true});
 
