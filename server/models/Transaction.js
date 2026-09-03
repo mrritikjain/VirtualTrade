@@ -23,7 +23,7 @@ const TransactionSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    totalprice: {
+    totalPrice: {
         type: Number,
         required: true 
     }
