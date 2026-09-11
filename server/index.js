@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const marketRoute = require('./routes/marketRoute');
 const tradeRoute = require('./routes/tradeRoute');
+const aiRoute = require('./routes/aiRoute');
 dotenv.config();
 
 connectDB();
@@ -21,6 +22,7 @@ app.use(cookieParser());
 app.use("/auth", AuthRoute);
 app.use("/api/market", marketRoute);
 app.use("/api/trade", tradeRoute);
+app.use("/api/ai", aiRoute);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, ()=>{

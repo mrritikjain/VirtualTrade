@@ -19,6 +19,8 @@ const StockdetailPage = () => {
   const [loadingHolding, setLoadingHolding] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [notification, setNotification] = useState(null);
+  const [prediction, setPrediction] = useState(null);
+  const [loadingPrediction, setLoadingPrediction] = useState(true);
 
   const selectedStock = stock.find(
     (item) => item.symbol.toUpperCase() === symbol?.toUpperCase()
@@ -41,8 +43,23 @@ const StockdetailPage = () => {
     }
   };
 
+  const fetchPrediction = async () => {
+    try {
+      setLoadingPrediction(true);
+      const res = await axios.get(`/api/ai/predict/${symbol}`);
+      if (res.data?.success) {
+        setPrediction(res.data.data);
+      }
+    } catch (err) {
+      console.error("Failed to fetch AI prediction:", err);
+    } finally {
+      setLoadingPrediction(false);
+    }
+  };
+
   useEffect(() => {
     fetchHolding();
+    fetchPrediction();
   }, [symbol]);
 
   const showNotification = (type, message) => {
@@ -132,6 +149,23 @@ const StockdetailPage = () => {
       showNotification("error", errorMsg);
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  const getSignalBadge = (rec) => {
+    switch (rec) {
+      case "STRONG BUY":
+        return "bg-emerald-500/20 text-emerald-300 border-emerald-500/40";
+      case "BUY":
+        return "bg-teal-500/20 text-teal-300 border-teal-500/40";
+      case "HOLD":
+        return "bg-amber-500/20 text-amber-300 border-amber-500/40";
+      case "SELL":
+        return "bg-orange-500/20 text-orange-300 border-orange-500/40";
+      case "STRONG SELL":
+        return "bg-rose-500/20 text-rose-300 border-rose-500/40";
+      default:
+        return "bg-zinc-800 text-zinc-300 border-zinc-700";
     }
   };
 
@@ -226,9 +260,109 @@ const StockdetailPage = () => {
             {/* Main Area: Chart & Order Form */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mt-4 flex-1">
               
-              {/* Left 2 Cols: Chart */}
-              <div className="lg:col-span-2 bg-zinc-950/60 border border-zinc-800/80 rounded-2xl p-4 flex flex-col min-h-[380px]">
-                <StockDetailChart symbol={symbol} />
+              {/* Left 2 Cols: Chart & AI Forecast */}
+              <div className="lg:col-span-2 flex flex-col gap-4">
+                <div className="bg-zinc-950/60 border border-zinc-800/80 rounded-2xl p-4 flex flex-col min-h-[380px]">
+                  <StockDetailChart symbol={symbol} />
+                </div>
+
+                {/* AI Price Forecast & Valuation Widget */}
+                <div className="bg-zinc-950/70 border border-zinc-800/90 rounded-2xl p-4 shadow-xl">
+                  <div className="flex items-center justify-between border-b border-zinc-800/60 pb-3 mb-3">
+                    <div className="flex items-center gap-2">
+                      <div className="w-6 h-6 rounded-lg bg-teal-500/20 text-teal-400 flex items-center justify-center">
+                        <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                      </div>
+                      <h3 className="text-sm font-extrabold text-white tracking-tight flex items-center gap-2">
+                        AI Price Forecast & Valuation
+                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-teal-500/10 text-teal-400 border border-teal-500/30 font-medium">
+                          RandomForest ML
+                        </span>
+                      </h3>
+                    </div>
+                    {prediction && (
+                      <span className={`text-[10px] font-extrabold px-2.5 py-0.5 rounded-full border ${getSignalBadge(prediction.recommendation)}`}>
+                        {prediction.recommendation}
+                      </span>
+                    )}
+                  </div>
+
+                  {loadingPrediction ? (
+                    <div className="py-6 flex items-center justify-center gap-3 text-zinc-500 text-xs">
+                      <div className="w-4 h-4 border-2 border-teal-500 border-t-transparent rounded-full animate-spin"></div>
+                      <span>Calculating 17 technical indicators and predicting price…</span>
+                    </div>
+                  ) : prediction ? (
+                    <div className="space-y-3">
+                      <div className="grid grid-cols-3 gap-3">
+                        <div className="p-3 rounded-xl bg-zinc-900/60 border border-zinc-800/80">
+                          <span className="text-[10px] uppercase font-semibold text-zinc-500 block mb-0.5">
+                            Target Price
+                          </span>
+                          <div className="text-lg font-mono font-extrabold text-white">
+                            ₹{prediction.predictedPrice.toFixed(2)}
+                          </div>
+                        </div>
+
+                        <div className="p-3 rounded-xl bg-zinc-900/60 border border-zinc-800/80">
+                          <span className="text-[10px] uppercase font-semibold text-zinc-500 block mb-0.5">
+                            Expected Move
+                          </span>
+                          <div className={`text-lg font-mono font-extrabold flex items-baseline gap-1 ${
+                            prediction.predictedChangePercent >= 0 ? "text-emerald-400" : "text-rose-400"
+                          }`}>
+                            {prediction.predictedChangePercent >= 0 ? "+" : ""}
+                            {prediction.predictedChangePercent}%
+                            <span className="text-[10px] font-medium text-zinc-400">
+                              (₹{prediction.predictedChange > 0 ? "+" : ""}{prediction.predictedChange})
+                            </span>
+                          </div>
+                        </div>
+
+                        <div className="p-3 rounded-xl bg-zinc-900/60 border border-zinc-800/80">
+                          <span className="text-[10px] uppercase font-semibold text-zinc-500 block mb-0.5">
+                            Model Confidence
+                          </span>
+                          <div className="text-lg font-mono font-extrabold text-teal-400">
+                            {prediction.confidence}%
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="text-xs text-zinc-300 bg-zinc-900/40 p-2.5 rounded-lg border border-zinc-800/60 flex items-start gap-2">
+                        <span className="text-teal-400 font-bold shrink-0">AI Insight:</span>
+                        <span>{prediction.rationale}</span>
+                      </div>
+
+                      {prediction.indicators && (
+                        <div className="grid grid-cols-4 gap-2 pt-1 text-[11px]">
+                          <div className="px-2 py-1.5 rounded bg-zinc-900/50 border border-zinc-800/70 text-zinc-400 flex justify-between">
+                            <span>RSI:</span>
+                            <span className="font-mono font-bold text-zinc-200">{prediction.indicators.rsi}</span>
+                          </div>
+                          <div className="px-2 py-1.5 rounded bg-zinc-900/50 border border-zinc-800/70 text-zinc-400 flex justify-between">
+                            <span>MACD:</span>
+                            <span className="font-mono font-bold text-zinc-200">{prediction.indicators.macd}</span>
+                          </div>
+                          <div className="px-2 py-1.5 rounded bg-zinc-900/50 border border-zinc-800/70 text-zinc-400 flex justify-between">
+                            <span>MA(20):</span>
+                            <span className="font-mono font-bold text-zinc-200">₹{prediction.indicators.ma20}</span>
+                          </div>
+                          <div className="px-2 py-1.5 rounded bg-zinc-900/50 border border-zinc-800/70 text-zinc-400 flex justify-between">
+                            <span>Volatility:</span>
+                            <span className="font-mono font-bold text-zinc-200">{prediction.indicators.volatility}%</span>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <div className="text-xs text-zinc-500 py-3 text-center">
+                      AI prediction data currently unavailable.
+                    </div>
+                  )}
+                </div>
               </div>
 
               {/* Right Col: Order Card */}
