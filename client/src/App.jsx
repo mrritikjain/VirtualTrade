@@ -11,6 +11,7 @@ import StockdetailPage from "./Pages/StockdetailPage.jsx";
 import { AuthProvider, useAuth } from "./Context/AuthContent.jsx";
 import { MarketProvider } from "./Context/MarketContext.jsx";
 import { WishProvider } from "./Context/WishContext.jsx";
+import ChatWidget from "./Components/ChatWidget.jsx";
 
 // ProtectedRoute Wrapper Component
 const ProtectedRoute = ({ children }) => {
@@ -52,6 +53,7 @@ const App = () => {
                 <Route path="/advisor" element={<ProtectedRoute><Advisor /></ProtectedRoute>} />
                 <Route path="/market/:symbol" element={<ProtectedRoute><StockdetailPage /></ProtectedRoute>} />
               </Routes>
+              <ChatWidget />
             </div>
           </BrowserRouter>
         </WishProvider>

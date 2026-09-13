@@ -1,5 +1,11 @@
 const { spawn } = require("child_process");
 const path = require("path");
+const { GoogleGenerativeAI } = require('@google/generative-ai');
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+const model = genAI.getGenerativeModel({ 
+  model: 'gemini-3.6-flash', 
+  systemInstruction: 'You are VirtualTrade AI Copilot, an intelligent assistant inside VirtualTrade (a stock trading simulator). Help users learn trading concepts, understand technical indicators (RSI, MACD, Moving Averages), navigate paper trading features, analyze stocks, and practice risk management. Always maintain a professional, encouraging tone. Remind users that VirtualTrade provides virtual market simulations for educational purposes, not actual financial advice.' 
+});
 
 // In-memory cache for predictions (5 minute TTL)
 const predictionCache = new Map();
@@ -211,9 +217,48 @@ const getFallbackPrediction = (stock) => {
     }
   };
 };
+const chatWithAssistant = async (userMessage, history = []) => {
+  try {
+    let formattedHistory = [];
+    if (Array.isArray(history) && history.length > 0) {
+      // Map history to Gemini format { role: 'user' | 'model', parts: [{ text: ... }] }
+      const raw = history
+        .filter((msg) => msg && (msg.text || msg.content || msg.message))
+        .map((msg) => ({
+          role: (msg.sender === "user" || msg.role === "user") ? "user" : "model",
+          parts: [{ text: String(msg.text || msg.content || msg.message || "") }]
+        }));
 
+      // Google Generative AI requirement: The first message in chat history MUST have role 'user'
+      const firstUserIndex = raw.findIndex((m) => m.role === "user");
+      if (firstUserIndex !== -1) {
+        formattedHistory = raw.slice(firstUserIndex);
+        // If the last message in history is the current userMessage, pop it to prevent duplication
+        if (formattedHistory.length > 0 && formattedHistory[formattedHistory.length - 1].role === "user") {
+          const lastText = formattedHistory[formattedHistory.length - 1].parts[0]?.text;
+          if (lastText === userMessage) {
+            formattedHistory.pop();
+          }
+        }
+      }
+    }
+
+    if (formattedHistory.length > 0) {
+      const chat = model.startChat({ history: formattedHistory });
+      const result = await chat.sendMessage(userMessage);
+      return result.response.text();
+    } else {
+      const result = await model.generateContent(userMessage);
+      return result.response.text();
+    }
+  } catch (err) {
+    console.error(`Failed to get response from Gemini: ${err.message}`);
+    throw err;
+  }
+};
 module.exports = {
   predictStock,
   batchPredictStocks,
-  getModelMetadata
+  getModelMetadata,
+  chatWithAssistant
 };

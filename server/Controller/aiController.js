@@ -1,4 +1,4 @@
-const { predictStock, batchPredictStocks, getModelMetadata } = require("../Services/aiService");
+const { predictStock, batchPredictStocks, getModelMetadata, chatWithAssistant } = require("../Services/aiService");
 const { getStockQuote } = require("../Services/FinnhubServices");
 
 // Fallback stock universe if Finnhub symbols are rate limited
@@ -187,8 +187,37 @@ const getModelInfo = async (req, res) => {
   }
 };
 
+/**
+ * POST /api/ai/chat
+ * Conversational endpoint for the trading assistant widget
+ */
+const chatWithAi = async (req, res) => {
+  try {
+    const { message, history } = req.body;
+    if (!message || typeof message !== "string" || !message.trim()) {
+      return res.status(400).json({
+        success: false,
+        message: "Message string is required."
+      });
+    }
+
+    const reply = await chatWithAssistant(message.trim(), history || []);
+    return res.status(200).json({
+      success: true,
+      reply
+    });
+  } catch (error) {
+    console.error("AI Controller chat error:", error);
+    return res.status(500).json({
+      success: false,
+      message: error.message || "Failed to communicate with AI Assistant"
+    });
+  }
+};
+
 module.exports = {
   getStockPrediction,
   getMarketForecast,
-  getModelInfo
+  getModelInfo,
+  chatWithAi
 };
