@@ -27,6 +27,7 @@
 - [Getting Started & Local Setup](#-getting-started--local-setup)
 - [Environment Configuration](#-environment-configuration)
 - [Roadmap & Future Enhancements](#-roadmap--future-enhancements)
+- [Interview Q&A Guide](INTERVIEW_QUESTIONS.md)
 - [Author & Connect](#-author--connect)
 
 ---
