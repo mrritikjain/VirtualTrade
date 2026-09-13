@@ -7,7 +7,7 @@ import {
   ResponsiveContainer,
   CartesianGrid,
 } from "recharts";
-import { useSymbolHistory } from "../Hooks/UseSymbolHistory.jsx";
+import { useSymbolHistory } from "../Hooks/useSymbolHistory.jsx";
 
 const CustomTooltip = ({ active, payload }) => {
   if (!active || !payload?.length) return null;
